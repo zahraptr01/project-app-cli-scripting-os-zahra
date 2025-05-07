@@ -33,6 +33,7 @@ function add_task() {
 
     # Cek duplikat
     for i in "${todo_list[@]}"; do
+    # Operator Perbandingan
         if [[ "$i" == "$task" ]]; then
             echo -e "${YELLOW}Tugas sudah ada di daftar!${NC}"
             return
@@ -52,6 +53,7 @@ function show_tasks() {
         return
     fi
 
+    # Menampilkan daftar tugas beserta statusnya (SELESAI atau BELUM) 
     for i in "${!todo_list[@]}"; do
         if [[ "${status_list[$i]}" == "SELESAI" ]]; then
             echo -e "$((i+1)). ${todo_list[$i]} - ${GREEN}SELESAI${NC}"
@@ -71,13 +73,15 @@ function mark_done() {
         return
     fi
 
-    index=$((num-1))
+    # Operator aritmatika pengurangan
+    index=$((num-1)) 
 
     if [[ $index -lt 0 || $index -ge ${#todo_list[@]} ]]; then
         echo -e "${RED}Nomor tugas tidak valid.${NC}"
         return
     fi
 
+    # Ubah status tugas sesuai indeks ke SELESAI.
     status_list[$index]="SELESAI"
     echo -e "${GREEN}Tugas ditandai selesai.${NC}"
 }
@@ -86,11 +90,13 @@ function mark_done() {
 function delete_task() {
     read -p "Masukkan nomor tugas yang ingin dihapus: " num
 
+    # Validasi input
     if ! [[ "$num" =~ ^[0-9]+$ ]]; then
         echo -e "${RED}Input harus berupa angka!${NC}"
         return
     fi
 
+    # Operator aritmatika pengurangan
     index=$((num-1))
 
     if [[ $index -lt 0 || $index -ge ${#todo_list[@]} ]]; then
@@ -98,6 +104,7 @@ function delete_task() {
         return
     fi
 
+    # Menghapus tugas dan statusnya dari array
     unset todo_list[$index]
     unset status_list[$index]
 
